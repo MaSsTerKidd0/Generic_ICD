@@ -1,0 +1,1 @@
+//stracture represetnt network icd
