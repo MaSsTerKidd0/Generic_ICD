@@ -4,5 +4,5 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+bincode = { version = "2.0.0", default-features = false, features = ["std", "serde","derive"] }
 pcap = "2.2.0"
-serde = { version = "1.0.218", features = ["derive"] }
