@@ -1,13 +1,8 @@
 mod packet_icd;
+pub mod packet_handler;
+pub mod pcap_handler;
 
 
-
-
-struct PacketICD{
-    tail: u32,
-    station: u32,
-    
-}
 
 
 
