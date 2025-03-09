@@ -1,4 +1,5 @@
 use pcap::Packet;
+use crate::network::protocols::Protocol;
 
 pub struct PacketHandler;
 
@@ -17,7 +18,7 @@ impl PacketHandler{
     fn parse_to_bytes(){
 
     }
-    pub fn strip_ethernet_header_from_packets(_packets: Vec<Vec<u8>>) -> Vec<Vec<u8>>{
+    pub fn strip_ethernet_header_from_packets(_packets: Vec<Vec<u8>>, _protocol :Option<Protocol>) -> Vec<Vec<u8>>{
         let mut packets_payload: Vec<Vec<u8>> = Vec::new();
 
         for packet in _packets{
@@ -27,7 +28,7 @@ impl PacketHandler{
         return packets_payload;
     }
     pub fn parse_packets_from_bytes(){
-
+        
     }
 
     pub fn parse_packets_to_bytes(){
