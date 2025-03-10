@@ -1,6 +1,9 @@
 use bincode::{Encode, Decode};
 use bincode::config::{Configuration, Fixint, LittleEndian, NoLimit};
 
+
+const CONFIG: Configuration<LittleEndian, Fixint, NoLimit> = bincode::config::legacy();
+
 #[derive(Encode, Decode, Debug, PartialEq, Clone)]
 pub struct PacketICD {
     time_stamp: u32,
@@ -8,15 +11,20 @@ pub struct PacketICD {
     station: u32,
     payload: Vec<u8>,
 }
-const config: Configuration<LittleEndian, Fixint, NoLimit> = bincode::config::legacy();
-impl PacketICD{
-    pub(crate) fn to_bytes(&self) -> Result<Vec<u8>, bincode::error::EncodeError> {
-        bincode::encode_to_vec(self, config)
+
+
+pub trait BinarySerializable: Sized {
+    fn to_bytes(&self) -> Result<Vec<u8>, bincode::error::EncodeError>;
+    fn from_bytes(bytes: &[u8]) -> Result<Self, bincode::error::DecodeError>;
+}
+
+impl BinarySerializable for PacketICD {
+    fn to_bytes(&self) -> Result<Vec<u8>, bincode::error::EncodeError> {
+        bincode::encode_to_vec(self, CONFIG)
     }
 
-    // Convert bytes back to struct
-    pub(crate) fn from_bytes(bytes: &[u8]) -> Result<Self, bincode::error::DecodeError> {
-        let (decoded, _): (PacketICD, usize) = bincode::decode_from_slice(bytes, config)?;
+    fn from_bytes(bytes: &[u8]) -> Result<Self, bincode::error::DecodeError> {
+        let (decoded, _): (PacketICD, usize) = bincode::decode_from_slice(bytes, CONFIG)?;
         Ok(decoded)
     }
 }
